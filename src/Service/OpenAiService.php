@@ -30,7 +30,7 @@ class OpenAiService
 
         $json = json_decode($complete, true);
 
-        if (isset($json['error'])) {
+        if (!isset($json['error'])) {
             $json = $json['choices'][0]['text'];
 
             return $json;
