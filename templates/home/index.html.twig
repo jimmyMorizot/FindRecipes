@@ -1,12 +1,20 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Père Castor, raconte moi une REGEX !</h1>
+	<h1>Trouves des Recettes</h1>
 
-    {{ form_start(form) }}
-    {{ form_row(form.regex) }}
-    {{ form_row(form.submit) }}
-    {{ form_end(form) }}
-    
-    <div id="response"></div>
+	{{ form_start(form) }}
+	{{ form_row(form.ingredients) }}
+	{{ form_row(form.submit) }}
+
+	<!-- Animation de chargement déplacée ici -->
+	<div id="loading" style="display: none;">Chargement...
+		<div class="loading-spinner"></div>
+	</div>
+
+
+	{{ form_end(form) }}
+
+	<div id="response"></div>
 {% endblock %}
+

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\RegexType;
+use App\Form\RecipeFormType;
 use App\Service\OpenAiService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,18 +16,19 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, OpenAiService $openAi): Response
     {
-        $form = $this->createForm(RegexType::class);
+        $form = $this->createForm(RecipeFormType::class);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $json = $openAi->getHistory($data['regex']);
+            $json = $openAi->getSuggestedRecipes($data['ingredients']);
 
-            return $this->render('home/histoire.html.twig', [
+            return $this->render('home/recipes.html.twig', [
                 'json' => $json,
             ]);
         }
+
         return $this->render('home/index.html.twig', [
             'form' => $form->createView(),
         ]);
