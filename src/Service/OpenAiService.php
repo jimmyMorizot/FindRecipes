@@ -27,7 +27,7 @@ class OpenAiService
                 ['role' => 'system', 'content' => $prompt]
             ],
             'temperature' => 0.5,
-            'max_tokens' => 3500,
+            'max_tokens' => 1500,
             'frequency_penalty' => 0.5,
             'presence_penalty' => 0,
         ]);
@@ -44,7 +44,7 @@ class OpenAiService
 
         if (isset($json['choices'][0]['message']) && is_array($json['choices'][0]['message'])) {
             $text = $json['choices'][0]['message']['content'] ?? 'Réponse non disponible';
-            // Formatage supplémentaire si nécessaire
+
             return $this->formatRecipeResponse($text);
         }
 
@@ -53,14 +53,12 @@ class OpenAiService
 
     private function formatRecipeResponse(string $response): string
     {
-        // Divise la réponse en sections basées sur des mots-clés
         $title = $this->extractSection($response, 'Titre :', 'Temps de préparation :');
         $prepTime = $this->extractSection($response, 'Temps de préparation :', 'Temps de cuisson :');
         $cookTime = $this->extractSection($response, 'Temps de cuisson :', 'Ingrédients :');
         $ingredients = $this->extractSection($response, 'Ingrédients :', 'Instructions :');
         $instructions = $this->extractSection($response, 'Instructions :');
 
-        // Construit la réponse formatée avec des sauts de ligne
         $formattedResponse = $title . "\n";
         $formattedResponse .= "Temps de préparation: " . $prepTime . "\n";
         $formattedResponse .= "Temps de cuisson: " . $cookTime . "\n\n";
@@ -86,7 +84,6 @@ class OpenAiService
 
         $section = trim(substr($response, $startPos, $endPos - $startPos));
 
-        // Vérifier si la section est vide
         if (empty($section)) {
             return 'Information non disponible';
         }
