@@ -80,8 +80,8 @@
     },
     "scripts": {
         "auto-scripts": {
-            "cache:clear": "php bin/console cache:clear",
-            "assets:install public": "php bin/console assets:install public",
+            "cache:clear": "symfony-cmd",
+            "assets:install public": "symfony-cmd",
             "requirements-checker": "script"
         },
         "post-install-cmd": [
